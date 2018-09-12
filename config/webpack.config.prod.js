@@ -1,10 +1,10 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var path = require('path')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
 
 const PATHS = {
     src: path.join(__dirname, '../src'),
     dist: path.join(__dirname, '../dist')
-}
+};
 
 module.exports = {
     context: __dirname,
@@ -18,7 +18,7 @@ module.exports = {
         publicPath: './'
     },
     optimization: {
-        runtimeChunk: 'single',
+        runtimeChunk: 'true',
         splitChunks: {
             cacheGroups: {
                 vendors: {
@@ -35,7 +35,8 @@ module.exports = {
             {
                 from: path.join(PATHS.src, 'favicon.ico'),
                 to: path.join(PATHS.dist, 'favicon.ico')
-            }]),
+            }
+        ]),
         new HtmlWebpackPlugin({
             title: 'BattleShip Game',
             favicon: '../src/favicon.ico',
@@ -51,4 +52,4 @@ module.exports = {
             mobile: true
         })
     ]
-}
+};

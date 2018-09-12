@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+    
+<body ng-app="myApp">
+
+<p><a href="#/!">Main</a></p>
+
+<a href="#!london">City 1</a>
+<a href="#!paris">City 2</a>
+
+<p>Click on the links.</p>
+
+<p>Note that each "view" has its own controller which each gives the "msg" variable a value.</p>
+
+<div ng-view></div>
+
+</body>
+</html>

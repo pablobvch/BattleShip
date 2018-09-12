@@ -1,11 +1,11 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 const PATHS = {
     src: path.join(__dirname, '../src'),
     dist: path.join(__dirname, '../dist')
-}
+};
 
 module.exports = {
     context: __dirname,
@@ -14,12 +14,12 @@ module.exports = {
         app: [PATHS.src]
     },
     output: {
-        path: PATHS.dist,
-        filename: '[name].js',
+        path: path.join(__dirname, '../dist'),
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
         publicPath: '/'
     },
-    /*optimization: {
-        runtimeChunk: 'single',
+    optimization: {
         splitChunks: {
             cacheGroups: {
                 vendors: {
@@ -30,16 +30,31 @@ module.exports = {
                 }
             }
         }
-    },*/
+    },
     devtool: 'eval-sourcemap',
     plugins: [
         new CopyWebpackPlugin([
             {
                 from: path.join(PATHS.src, 'favicon.ico'),
                 to: path.join(PATHS.dist, 'favicon.ico')
-            }]),
+            },
+            {
+                from: path.join(PATHS.src, 'london.html'),
+                to: path.join(PATHS.dist, 'london.html')
+            },
+            {
+                from: path.join(PATHS.src, 'paris.html'),
+                to: path.join(PATHS.dist, 'paris.html')
+            },
+            ,
+            {
+                from: path.join(PATHS.src, 'main.html'),
+                to: path.join(PATHS.dist, 'main.html')
+            }
+        ]),
         new HtmlWebpackPlugin({
             title: 'BattleShip Game',
+            template: '../src/index.ejs',
             favicon: '../src/favicon.ico',
             minify: {
                 collapseWhitespace: true,
@@ -47,13 +62,22 @@ module.exports = {
                 preserveLineBreaks: true,
                 useShortDoctype: true,
                 html5: true
-            }/*,
-            mobile: true,
+            },
             appMountIds: ['app'],
-            inject: false,
-            */
+            mobile: true
         })
     ],
+    module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader"
+            }
+          }
+        ]
+      },
     devServer: {
         contentBase: PATHS.dist,
         compress: true,
@@ -66,11 +90,11 @@ module.exports = {
             warnings: true,
             errors: true
         },
+        historyApiFallback: true,
         port: 8080,
-        publicPath: 'http://localhost:8080/'/*,
-        hot: true*/
+        publicPath: 'http://localhost:8080/'
     },
     stats: {
         children: false
     }
-}
+};
